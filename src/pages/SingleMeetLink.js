@@ -122,7 +122,7 @@ export default function SingleMeetLink() {
           </div>
 
           <div className="text-center my-4">
-            <RsvpModal />
+            {new Date() < new Date(meet.eventEndTime) && <RsvpModal />}
           </div>
         </div>
       </div>
