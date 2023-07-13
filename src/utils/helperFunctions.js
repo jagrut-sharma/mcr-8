@@ -15,7 +15,9 @@ const searchFilter = (dataList, filterValue) => {
           meet.title
             .toLowerCase()
             .includes(filterValue.search.trim().toLowerCase()) ||
-          meet.eventTags.includes(filterValue.search.trim().toLowerCase())
+          meet.eventTags.some((tag) =>
+            tag.toLowerCase().includes(filterValue.search.trim().toLowerCase())
+          )
         );
       })
     : dataList;
