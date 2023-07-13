@@ -9,7 +9,7 @@ const selectFilter = (dataList, filterValue) => {
 };
 
 const searchFilter = (dataList, filterValue) => {
-  return filterValue.search > 0
+  return filterValue.search.length > 0
     ? dataList.filter((meet) => {
         return (
           meet.title

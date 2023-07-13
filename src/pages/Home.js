@@ -18,8 +18,6 @@ export default function Home() {
 
   const filteredMeetups = getFilteredData(filterValue, meetups);
 
-  console.log(filteredMeetups);
-
   return (
     <main className="p-4">
       <div className="flex justify-between">
