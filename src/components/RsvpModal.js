@@ -10,6 +10,7 @@ export default function RsvpModal() {
     name: "",
     email: "",
   });
+  const [error, setError] = useState("");
 
   function closeModal() {
     setIsOpen(false);
@@ -17,6 +18,7 @@ export default function RsvpModal() {
       name: "",
       email: "",
     });
+    setError("");
   }
 
   function openModal() {
@@ -25,6 +27,7 @@ export default function RsvpModal() {
 
   const handleClick = () => {
     if (inputTxt.name.trim() === "" || inputTxt.email.trim() === "") {
+      setError("Please enter both details");
       return;
     }
     setRsvp(true);
@@ -35,6 +38,7 @@ export default function RsvpModal() {
     setInputTxt((draft) => {
       draft[e.target.name] = e.target.value;
     });
+    setError("");
   };
 
   return (
@@ -84,6 +88,12 @@ export default function RsvpModal() {
                     <p className="text-base text-gray-500">
                       Fill in your personal information
                     </p>
+
+                    {error && (
+                      <h2 className="text-2xl text-red-600 font-bold text-center">
+                        {error}
+                      </h2>
+                    )}
 
                     <div className="flex flex-col mt-4 font-Libre">
                       <label htmlFor="name" className="font-bold">
