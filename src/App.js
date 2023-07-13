@@ -1,11 +1,23 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
+import RootLayout from "./pages/RootLayout";
+import SingleMeetLink from "./pages/SingleMeetLink";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "/:meetID",
+        element: <SingleMeetLink />,
+      },
+    ],
   },
 ]);
 
