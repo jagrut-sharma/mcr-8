@@ -49,7 +49,10 @@ export default function SingleMeetLink() {
         <div>
           <h2 className="text-2xl font-bold my-4">Event Tags:</h2>
           {meet.eventTags.map((tag) => (
-            <span className="bg-red-400 w-[4rem] text-white px-2 py-1 text-md font-bold rounded-lg mr-2">
+            <span
+              key={tag}
+              className="bg-red-400 w-[4rem] text-white px-2 py-1 text-md font-bold rounded-lg mr-2"
+            >
               {tag}
             </span>
           ))}

@@ -1,25 +1,48 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { useData } from "../context/dataContext";
+import { useImmer } from "use-immer";
 
 export default function RsvpModal() {
   let [isOpen, setIsOpen] = useState(false);
   const { rsvp, setRsvp } = useData();
+  const [inputTxt, setInputTxt] = useImmer({
+    name: "",
+    email: "",
+  });
 
   function closeModal() {
     setIsOpen(false);
+    setInputTxt({
+      name: "",
+      email: "",
+    });
   }
 
   function openModal() {
     setIsOpen(true);
   }
 
+  const handleClick = () => {
+    if (inputTxt.name.trim() === "" || inputTxt.email.trim() === "") {
+      return;
+    }
+    setRsvp(true);
+    setIsOpen(false);
+  };
+
+  const handleChange = (e) => {
+    setInputTxt((draft) => {
+      draft[e.target.name] = e.target.value;
+    });
+  };
+
   return (
     <>
       <button
         type="button"
         onClick={openModal}
-        className="bg-red-500 w-[8rem] text-white px-4 py-2 text-lg font-bold rounded-lg opacity-95 hover:bg-opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+        className="bg-red-500 w-max text-white px-4 py-2 text-lg font-bold rounded-lg opacity-95 hover:bg-opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
         disabled={rsvp}
       >
         {rsvp ? "Already RSVPed" : "RSVP"}
@@ -62,19 +85,50 @@ export default function RsvpModal() {
                       Fill in your personal information
                     </p>
 
-                    <div>
-                      <label htmlFor="name">Name:</label>
-                      <input type="name" required />
+                    <div className="flex flex-col mt-4 font-Libre">
+                      <label htmlFor="name" className="font-bold">
+                        Name:
+                      </label>
+                      <input
+                        type="name"
+                        id="name"
+                        name="name"
+                        required
+                        className="border-2 p-1 rounded-md"
+                        value={inputTxt.name}
+                        onChange={handleChange}
+                        placeholder="enter name"
+                      />
                     </div>
+
+                    <div className="flex flex-col mt-4 font-Libre">
+                      <label htmlFor="email" className="font-bold">
+                        Email:
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        className="border-2 p-1 rounded-md"
+                        value={inputTxt.email}
+                        onChange={handleChange}
+                        placeholder="enter email"
+                      />
+                    </div>
+
+                    <p className="text-xl mt-4 text-gray-700">
+                      You have to make the payment at the venue
+                    </p>
                   </div>
 
                   <div className="mt-4">
                     <button
                       type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeModal}
+                      className="inline-flex justify-center rounded-md border border-transparent bg-red-300 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={handleClick}
                     >
-                      Got it, thanks!
+                      RSVP
                     </button>
                   </div>
                 </Dialog.Panel>

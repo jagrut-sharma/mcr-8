@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useData } from "../context/dataContext";
 import { Link } from "react-router-dom";
+import { getFilteredData } from "../utils/helperFunctions";
 
 export default function Home() {
   const {
@@ -15,6 +16,10 @@ export default function Home() {
     setFilterValue((prev) => ({ ...prev, select: e.target.value }));
   };
 
+  const filteredMeetups = getFilteredData(filterValue, meetups);
+
+  console.log(filteredMeetups);
+
   return (
     <main className="p-4">
       <div className="flex justify-between">
@@ -27,20 +32,23 @@ export default function Home() {
           onChange={handleChangeSelect}
         >
           <option value="both">Select event type..</option>
-          <option value="offline">Offline</option>
-          <option value="online">Online</option>
+          <option value="Offline">Offline</option>
+          <option value="Online">Online</option>
         </select>
       </div>
 
       <div className="p-4 flex flex-wrap gap-4">
-        {meetups.map((meet) => (
+        {filteredMeetups.map((meet) => (
           <Link key={meet.id} to={`/${meet.id}`}>
-            <div>
+            <div className="relative">
               <img
                 src={meet.eventThumbnail}
                 alt={meet.title}
                 className="w-[16rem] h-[10rem] rounded-md shadow-md"
               />
+              <span className="absolute top-[4px] left-[4px] text-[small] bg-white rounded-lg p-[5px]">
+                {`${meet.eventType} event`}
+              </span>
             </div>
             <p>
               {new Date(meet.eventEndTime).toDateString() +
